@@ -1,0 +1,80 @@
+        {% extends "dashboard/dashboard.html" %}
+        {% block title %}Manager Dashboard{% endblock title %}
+           {% block tasks %}
+                <!-- state table -->
+                <div class="bg-white rounded-xl shadow-sm ">
+                    <!-- table title -->
+                    <div class="grid grid-cols-4 p-4 border-b border-gray-100 text-sm text-gray-500">
+                        <div>
+                            TASK TITLE
+                        </div>
+                        <div>
+                            PRIORITY
+                        </div>
+                        <div>
+                            TEAM
+                        </div>
+                        <div>
+                            CREATED AT
+                        </div>
+                    </div>
+                    {% comment %} messages for Delete {% endcomment %}
+                    <div>
+                        {% if messages %}
+                        {% for message in messages %}
+                            <div class="px-2 py-1 {% if message.tags == 'success' %} bg-green-400 {% endif %}">{{ message }}</div>
+                        {% endfor %}
+                        {% endif %}
+                    </div> 
+                    <!-- task items -->
+                    <div div class="divide-y divide-gray-100">
+
+                        {% for task in tasks %}
+                        
+                            <div class="grid grid-cols-4 gap-4 p-4 items-center">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                                    <div class="flex justify-between items-center">
+                                        <samp> {{task.title}} </samp>
+                                        <div class="flex justify-between items-center gap-1 rounded-sm">
+                                            <a href='{% url "update-task" task.id %}' class="px-2 py-1 bg-green-400 rounded-sm">Edit</a>
+                                            <form action="{% url 'delete-task' task.id %}" method="POST">
+                                                {% csrf_token %}
+                                                <button type="submit" class="py-1 px-2 bg-red-500">Delete</button>
+                                            </form>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <span class="px-3 py-1 bg-blue-50 rounded-full text-blue-600 text-sm"> {{task.details.get_priority_display}} </span>
+                                </div>
+
+                                <div>
+                                <div class="flex -space-x-2">
+                                        {% for emp in task.assignedTo.all %}
+
+                                            <dvi class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white text-sm border-2 border-white">
+                                                {{emp.name|slice:':2'}}
+                                            </dvi>
+
+                                        {% endfor %}
+                                    </div>
+
+
+                                </div>
+
+                                <div>
+                                    <span class="text-gray-500">{{task.created_at|timesince}}</span>
+                                </div>
+
+                            </div>
+                            <hr/>
+                        {% endfor %}
+
+
+                    </div>
+                </div>
+               
+            {% endblock tasks %}
