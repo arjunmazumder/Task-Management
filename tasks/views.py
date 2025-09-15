@@ -30,7 +30,6 @@ def manager_dashboard(request):
     elif type == 'all':
         tasks = Base_query.all()
 
-
     context = {
         "tasks" : tasks,
         "counts" : counts
@@ -40,9 +39,6 @@ def manager_dashboard(request):
 
 def user_dashboard(request):
     return render(request,"dashboard/userdashboard.html")
-
-def test(request):
-    return render(request,"test.html")
 
 def create_task(request):
     task_form = TaskModelForm()
@@ -79,6 +75,9 @@ def update_task(request, id):
 
     context = {"task_form": task_form, "task_detail_form" : task_detail_form}
     return render(request,"task_form.html", context)
+
+
+
 
 def delete_task(request, id):
     if request.method == 'POST':
