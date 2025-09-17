@@ -10,6 +10,18 @@
 </head>
 <body>
     <h1>Wellcom to home</h1>
+    {% if user.is_authenticated %}
+       {{ user }}
+       <form action="{% url 'log-out' %}" method='POST'>
+        {% csrf_token %}
+        <button type="submit">LogOut</button>
+       </form>
+
+    {% else %}
+       <p>
+         Anonamacy
+       </p>   
+    {% endif %}
     
 </body>
 </html>
