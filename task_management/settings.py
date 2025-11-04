@@ -163,3 +163,5 @@ EMAIL_HOST_PASSWORD = 'msfs oloo mjpd cdpi'
 
 #ursl
 FRONTEND_URL = 'http://127.0.0.1:8000'
+
+LOGIN_URL = 'log-in'
