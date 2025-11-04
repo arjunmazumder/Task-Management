@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from users.forms import Registration
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout
@@ -107,3 +107,7 @@ def create_group(request):
         form = CreateGroupForm()
 
     return render(request, 'admin/createGroup.html', {'form': form})
+
+def group_list(request):
+    groups = Group.objects.all()
+    return render(request, 'admin/groupList.html',{"groups":groups})
