@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout
-from users.forms import LoginForm
+from users.forms import LoginForm, AssignRoleForm, CreateGroupForm
 from django.contrib.auth.tokens import default_token_generator
 
 
@@ -71,3 +71,39 @@ def activate_user(request, user_id, token):
 
     except User.DoesNotExist:
         return HttpResponse('User not found')
+
+def admin_dashboard(request):
+    users = User.objects.all()
+    return render(request, 'admin/adminDashboard.html', {"users":users})
+
+
+
+def assign_role(request, user_id):
+    user = User.objects.get(id=user_id)
+  
+    if request.method == 'POST':
+        form = AssignRoleForm(request.POST)
+        if form.is_valid():
+            role = form.cleaned_data.get('role')
+            user.groups.clear()  # Remove old roles
+            user.groups.add(role)
+            messages.success(request, f"User {user.username} has been assigned to the {role.name} role")
+            return redirect('admin-dashboard')
+    else:
+          form = AssignRoleForm()
+
+
+    return render(request, 'admin/assignRole.html', {"form": form})
+
+def create_group(request):
+    if request.method == 'POST':
+        form = CreateGroupForm(request.POST)
+
+        if form.is_valid():
+            group = form.save()
+            messages.success(request, f"Group {group.name} has been created successfully")
+            return redirect('create-group')
+    else:
+        form = CreateGroupForm()
+
+    return render(request, 'admin/createGroup.html', {'form': form})

@@ -1,6 +1,6 @@
 from django import forms 
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group,Permission
 import re
 
 class Registration(forms.ModelForm):
@@ -66,3 +66,20 @@ class LoginForm(AuthenticationForm):
         super().__init__(*arg, **kwargs)
 
     
+class AssignRoleForm(forms.Form):
+    role = forms.ModelChoiceField(
+        queryset=Group.objects.all(),
+        empty_label="Select a Role"
+    )
+
+class CreateGroupForm(forms.ModelForm):
+    permissions = forms.ModelMultipleChoiceField(
+        queryset=Permission.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required=False,
+        label='Assign Permission'
+    )
+
+    class Meta:
+        model = Group
+        fields = ['name', 'permissions']
