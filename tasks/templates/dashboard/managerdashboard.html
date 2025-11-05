@@ -2,7 +2,7 @@
         {% block title %}Manager Dashboard{% endblock title %}
            {% block tasks %}
                 <!-- state table -->
-                <div class="bg-white rounded-xl shadow-sm ">
+                <div class="bg-white rounded-xl shadow-sm mb-8">
                     <!-- table title -->
                     <div class="grid grid-cols-4 p-4 border-b border-gray-100 text-sm text-gray-500">
                         <div>
@@ -51,21 +51,12 @@
                                 <div>
                                     <span class="px-3 py-1 bg-blue-50 rounded-full text-blue-600 text-sm"> {{task.details.get_priority_display}} </span>
                                 </div>
-
-                              
                                 <div class="flex -space-x-2">
-                                    <div>
-                                        
-                                        {% for emp in task.assignedTo.all %}
-
-                                            <dvi class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white text-sm border-2 border-white">
-                                                {{emp.name|slice:':2'}}
-                                            </dvi>
-
-                                        {% endfor %}
+                                    {% for emp in task.assignedTo.all %}
+                                    <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white text-sm border-2 border-white">
+                                        {{emp.name|slice:':2'}}
                                     </div>
-
-
+                                    {% endfor %}
                                 </div>
 
                                 <div>
