@@ -111,3 +111,9 @@ def view_task(request):
     # Retrive all data from task models
     tasks = Task.objects.all()
     return render(request,'show_task.html',{'tasks':tasks})
+
+@login_required
+@permission_required("tasks.view_Tasks", login_url='no-permission')
+def task_details(request, task_id):
+    task = Task.objects.get(id=task_id)
+    return render(request,'taskDetails.html', {'task':task})

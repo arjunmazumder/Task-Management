@@ -36,7 +36,7 @@
                                 <div class="flex items-center gap-2">
                                     <div class="w-2 h-2 bg-green-500 rounded-full"></div>
                                     <div class="flex justify-between items-center">
-                                        <samp> {{task.title}} </samp>
+                                        <a href="{% url 'task-details' task.id %}"><samp> {{task.title}} </samp></a>
                                         <div class="flex justify-between items-center gap-2 rounded-sm">
                                             <a href='{% url "update-task" task.id %}' class="px-2 py-1 bg-green-400 rounded-sm">Edit</a>
                                             <form action="{% url 'delete-task' task.id %}" method="POST">
