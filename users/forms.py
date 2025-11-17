@@ -1,9 +1,10 @@
 from django import forms 
+from tasks.forms import StyledFormMixin
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User, Group,Permission
 import re
 
-class Registration(forms.ModelForm):
+class Registration(StyledFormMixin, forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
     confirm_password = forms.CharField(widget=forms.PasswordInput)
     class Meta:
@@ -61,18 +62,18 @@ class Registration(forms.ModelForm):
     
 #LogIn form
 
-class LoginForm(AuthenticationForm):
+class LoginForm(StyledFormMixin, AuthenticationForm):
     def __init__(self, *arg, **kwargs):
         super().__init__(*arg, **kwargs)
 
     
-class AssignRoleForm(forms.Form):
+class AssignRoleForm(StyledFormMixin, forms.Form):
     role = forms.ModelChoiceField(
         queryset=Group.objects.all(),
         empty_label="Select a Role"
     )
 
-class CreateGroupForm(forms.ModelForm):
+class CreateGroupForm(StyledFormMixin, forms.ModelForm):
     permissions = forms.ModelMultipleChoiceField(
         queryset=Permission.objects.all(),
         widget=forms.CheckboxSelectMultiple,
